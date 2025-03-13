@@ -1,12 +1,12 @@
 # Spring-Boot-Projects
 This repo holds the sprint boot projects developed as part of the learning journey.
 
-**Projects:**
+# Projects:
     1. Books Management
     2. Employee Management
     3. Project Management
 
-**Tools/Technologies:**
+# Tools/Technologies:
     1. Java
     2. Spring Framework
     3. Eclipse IDE
