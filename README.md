@@ -13,4 +13,4 @@ This repo holds the sprint boot projects developed as part of the learning journ
     4. Postman
     5. MongoDB
 
-Feel free to clone the project and your comments are welcomed.
+Feel free to clone the project and experiment with it. Looking forward to your comments.
