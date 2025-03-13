@@ -1,0 +1,2057 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/SriramB/ProjectManagementSystem/1.0.0
+  - description: URL for PMS
+    url: http://localhost:8080/api/v1
+  
+info:
+  description: This API is PMS
+  version: "1.0.0"
+  title: PMS
+  contact:
+    email: suba@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: tester
+    description:  tester-only calls
+  - name: developers
+    description:  developer-only calls
+  - name: manager
+    description:  manager-only calls
+  - name: analyst
+    description:  analyst-only calls
+
+paths:
+  /role/getAllRoles:
+    get:
+      tags:
+        - developers
+        - admins
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for Roles
+      operationId: getAllRoles
+      description: |
+        Search for Roles
+      responses:
+        '200':
+          description: List of Roles
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/RoleList'
+        '400':
+          description: Invalid Input
+  /role/getRole/{roleId}:
+    get:
+      tags:
+        - developers
+        - admins
+        - analyst
+        - manager
+        - tester
+      security:
+      - bearerAuth: []
+      summary: Search for specific Role
+      operationId: getRole
+      description: |
+        Search for specific Role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Role
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Role'
+        '400':
+          description: Invalid Input
+  /role/addRole:
+    post:
+      tags:
+        - admins
+        - developers
+        - manager
+        - tester
+      security:
+      - bearerAuth: []
+      summary: Add a new  Role
+      operationId: addRole
+      description: |
+        Add a new Role
+      responses:
+        '200':
+          description: Role
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InsertedRole'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleListContent'
+  /role/updateRole/{roleId}:
+    patch:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: update existing Role
+      operationId: updateRole
+      description: |
+        update existing Role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Role
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UpdatedRole'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleListContent'
+  /role/deleteRole/{roleId}:
+    delete:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: delete an existing Role
+      operationId: deleteRole
+      description: |
+        delete an existing Role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Role
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedRole'
+        '400':
+          description: Invalid Input
+        
+  /service/getServices:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+        - bearerAuth: []
+      summary: Search for All Services
+      operationId: getServices
+      description: |
+        Search for All Services
+      responses:
+        '200':
+          description: List of Services
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ServicesList'
+        '400':
+          description: Invalid Input
+          
+  /service/getServiceByName/{serviceName}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for particular Services
+      operationId: getServiceByName
+      description: |
+        Search for particular Service
+      parameters:
+        - in: path
+          name: serviceName
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: One Services
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Service'
+        '400':
+          description: Invalid Input
+          
+  /service/getServiceByRole/{role}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for particular Services
+      operationId: getServiceByRole
+      description: |
+        Search for particular Service
+      parameters:
+        - in: path
+          name: role 
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: One Services
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/RoleService'
+        '400':
+          description: Invalid Input
+          
+  /service/updatePermission/{serviceName}:
+    patch:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: update existing Role Permissions
+      operationId: updateService
+      description: |
+        update existing Role Permissions
+      parameters:
+        - in: path
+          name: serviceName
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Service
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/updateService'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateListContent'
+  /service/removePermission/{serviceName}:
+    patch:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: Removing existing Role Permissions
+      operationId: removePermission
+      description: |
+       Removing existing Role Permissions
+      parameters:
+        - in: path
+          name: serviceName
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Service
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/updateService'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateListContent'
+  /service/addService:
+    post:
+      tags:
+        - admins
+        - developers
+        - manager
+      security:
+      - bearerAuth: []
+      summary: Add a new  Service
+      operationId: addService
+      description: |
+        Add a new Service
+      responses:
+        '200':
+          description: Service
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InsertedService'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceListContent'
+  /service/deleteService/{serviceName}:
+    delete:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: delete an existing Service
+      operationId: deleteService
+      description: |
+        delete an existing Service
+      parameters:
+        - in: path
+          name: serviceName
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Service
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedService'
+        '400':
+          description: Invalid Input
+  /user/addUser:
+    post:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: Add a new  User Record
+      operationId: addUser
+      description: |
+        Add a new User Record
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserList'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListContent'  
+              
+  /user/getUser/{userId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for particular User
+      operationId: getUser
+      description: |
+        Search for particular User
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: One User
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid Input            
+              
+  /user/getUsers:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for All Users
+      operationId: geUsers
+      description: |
+        Search for All Users
+      responses:
+        '200':
+          description: List of Users
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserList'
+        '400':
+          description: Invalid Input
+          
+  /user/getUsersByRole/{UserRoles}:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+        - bearerAuth: []
+      summary: Search for All Users By Role
+      operationId: getUsersByRole
+      description: |
+        Search for All Users By Role
+      parameters:
+        - in: path
+          name: UserRoles
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: List of Users for a Particular Role
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserListRole'
+        '400':
+          description: Invalid Input
+  /user/getUsersByProject/{projectId}:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+        - bearerAuth: []
+      summary: Search for All Users By Project Id
+      operationId: getUsersByProject
+      description: |
+        Search for All Users By Project Id
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: List of Users for a Particular Project
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserListRole'
+        '400':
+          description: Invalid Input                    
+  
+  /user/deleteUser/{userId}:
+    delete:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: delete an existing User
+      operationId: deleteUser
+      description: |
+        delete an existing Role
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedUser'
+        '400':
+          description: Invalid Input  
+          
+  /user/updateUser/{userId}:
+    patch:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: update existing User
+      operationId: updateUser
+      description: |
+        update existing User
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UpdatedUser'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListContent'    
+              
+  /DefectHistory/displayDefectHistory:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+        - bearerAuth: []
+      summary: Search for Defect History List
+      operationId: getAllDefectHistory
+      description: |
+        Search for Defect History List
+      responses:
+        '200':
+          description: List of Defect History
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DefectHistoryList'
+        '400':
+          description: Invalid Input
+  /DefectHistory/getDefectHistoryByDefectId/{defectId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for Specific Defect History
+      operationId: getDefectHistoryByDefectId
+      description:
+        Search for Specific Defect History
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Specific Defect History
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefectHistoryOne'
+        '400':
+          description: Invalid Input
+  /Defect/displayDefects:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for All Defects
+      operationId: getAllDefects
+      description:
+        Search for All Defects
+      responses:
+        '200':
+          description: Get All Active Defects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefectList'
+        '400':
+          description: Invalid Input
+  /Defect/getDefectByDefectId/{defectId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for Specific Defect
+      operationId: getDefectByDefectId
+      description:
+        Search for Specific Defect details
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Specific Defect 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefectOne'
+        '400':
+          description: Invalid Input
+  /Defect/getDefectByProjectId/{projectId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for particular project's Defects
+      operationId: getDefectByProjectId
+      description:
+        Search for particular project's Defects
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of  Defects of particular project 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefectList'
+        '400':
+          description: Invalid Input
+  /Defect/removeDefectByDefectId/{defectId}:
+    delete:
+      tags:
+        - admins
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Delete a defect
+      operationId: removeDefectByDefectId
+      description:
+        Deleting a defect will also delete defect history and comments associated with it
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Defect has been deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefectDelete'
+        '400':
+          description: Invalid Input
+  /Defect/addDefect:
+    post:
+      tags:
+        - admins
+        - tester
+        - manager
+      security:
+        - bearerAuth: []
+      summary: Add New Defect
+      operationId: addDefect
+      description:
+        Adding a new defect will automatically add defect history and comments to store the updations and comments for new Defect added.
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDefectContent'
+      responses:
+        '200':
+          description: New Defect is added
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DefectOne'
+        '400':
+          description: Invalid Input
+  /Defect/updateDefectByDefectId/{defectId}:
+    patch:
+      tags:
+        - admins
+        - tester
+        - manager
+      security:
+        - bearerAuth: []
+      summary: Updating Defect
+      operationId: updateDefect
+      description: 
+        Updating defect will make some entries in defect history.
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDefectContent'
+      responses:
+        '200':
+          description: Active Defect is updated
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DefectOne'
+        '400':
+          description: Invalid Input
+  /Comment/displayComments:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for All Comments
+      operationId: getAllComments
+      description:
+        Search for All Comments
+      responses:
+        '200':
+          description: Get All Active Comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentList'
+        '400':
+          description: Invalid Input
+  /Comment/getCommentByDefectId/{defectId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+        - bearerAuth: []
+      summary: Search for Specific Comment
+      operationId: getCommentByDefectId
+      description:
+        Search for Specific Comment details
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Specific Comment 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentOne'
+        '400':
+          description: Invalid Input
+  /Comment/addChat/{defectId}:
+    patch:
+      tags:
+        - admins
+      security:
+        - bearerAuth: []
+      summary: Chat in comments
+      operationId: addChat
+      description:
+        Add Chats for Specific Comment description
+      parameters:
+        - in: path
+          name: defectId
+          required: true
+          schema: 
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddChatContent'
+      responses:
+        '200':
+          description: Add Chat 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentOne'
+        '400':
+          description: Invalid Input
+  /projectService/getAllProjects:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+        - bearerAuth: []
+      summary: fetch all the projects
+      operationId: getAllProjects
+      description: |
+        fetch all the projects
+      responses:
+        '200':
+          description: All Projects fetched Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProjectList'
+        '400':
+          description: Invalid Input
+  /projectService/getProject/{projectId}:
+    get:
+      tags:
+        - developers
+        - analyst
+        - manager
+        - tester
+        - admins
+      security:
+      - bearerAuth: []
+      summary: Search for specific Project
+      operationId: getProject
+      description: |
+        Search for specific Project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Project Fetch Success
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProjectDetails'
+        '400':
+          description: Invalid Input
+  /projectService/addProject:
+    post:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: Add a new Project
+      operationId: addProject
+      description: |
+        Adding a new Project
+      responses:
+        '200':
+          description: Project Successfully Added
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/AddedProject'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectListContent'
+  /projectService/editProject/{projectId}:
+    patch:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: update existing Role
+      operationId: updateProject
+      description: |
+        update existing project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Project updation done successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UpdatedProject'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectEditContent'
+  /projectService/deleteProject/{projectId}:
+    delete:
+      tags:
+        - admins
+        - manager
+      security:
+      - bearerAuth: []
+      summary: delete an existing project
+      operationId: deleteProject
+      description: |
+        delete an existing Project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Project Deleted Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedProject'
+        '400':
+          description: Invalid Input
+  /projectService/editRequirement/{requirementId}:
+    patch:
+      tags:
+        - admins
+        - manager
+        - analyst
+      security:
+      - bearerAuth: []
+      summary: update an existing project Requirement
+      operationId: updateProjectRequirement
+      description: |
+        update an existing Project Requirement
+      parameters:
+        - in: path
+          name: requirementId
+          required: true
+          schema: 
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequirementListContent'
+      responses:
+        '200':
+          description: Edited Requirement Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/EditedRequirement'
+        '400':
+          description: Invalid Input
+  /projectService/addRequirement/{projectId}:
+    post:
+      tags:
+        - admins
+        - manager
+        - analyst
+      security:
+      - bearerAuth: []
+      summary: add a new  Requirement to an existing project
+      operationId: addProjectRequirement
+      description: |
+        update an existing Project Requirement
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequirementListContent'
+      responses:
+        '200':
+          description: Added Requirement Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/AddedRequirement'
+        '400':
+          description: Invalid Input
+  /projectService/deleteRequirement/{requirementId}:
+    delete:
+      tags:
+        - admins
+        - manager
+        - analyst
+      security:
+      - bearerAuth: []
+      summary: add a new  Requirement to an existing project
+      operationId: deleteProjectRequirement
+      description: |
+        update an existing Project Requirement
+      parameters:
+        - in: path
+          name: requirementId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Deleted Requirement Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedRequirement'
+        '400':
+          description: Invalid Input
+  /TestcaseService/addTestcase:
+    post:
+      tags:
+        - admins
+        - tester
+        - developers
+      security:
+      - bearerAuth: []
+      summary: Add a new Testcase
+      operationId: addTestcase
+      description: |
+        Adding a new Testcase
+      responses:
+        '200':
+          description: Testcase Successfully Added
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/AddedTestcase'
+        '400':
+          description: Invalid Input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestcaseListContent'
+  /TestcaseService/getTestcases:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+      - bearerAuth: []
+      summary: Getting All Testcases 
+      operationId: getTestcase
+      description: |
+        Getting a specific Testcase
+      responses:
+        '200':
+          description: All Testcases fetched Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Testcases'
+        '400':
+          description: Invalid Input
+  /TestcaseService/getTestcasesByRid/{requirementId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+      - bearerAuth: []
+      summary: Getting All Testcases By Requirement ID
+      operationId: getTestcaseByRid
+      parameters:
+        - in: path
+          name: requirementId
+          required: true
+          schema: 
+            type: string
+      description: |
+        Getting a specific Testcase
+      responses:
+        '200':
+          description: All Testcases fetched Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Testcases'
+        '400':
+          description: Invalid Input
+  /TestcaseService/getTestcasesByPid/{projectId}:
+    get:
+      tags:
+        - admins
+        - developers
+        - analyst
+        - manager
+        - tester
+      security:
+      - bearerAuth: []
+      summary: Getting All Testcases By Project ID
+      operationId: getTestcaseByPid
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema: 
+            type: string
+      description: |
+        Getting a specific Testcase
+      responses:
+        '200':
+          description: All Testcases fetched Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Testcases'
+        '400':
+          description: Invalid Input
+  /TestcaseService/editTestcase/{testcaseId}:
+    patch:
+      tags:
+        - admins
+        - tester
+        - developers
+      security:
+      - bearerAuth: []
+      summary: update an existing Testcase
+      operationId: updateTestcase
+      description: |
+        update an existing Project Requirement
+      parameters:
+        - in: path
+          name: testcaseId
+          required: true
+          schema: 
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestcaseEditContent'
+      responses:
+        '200':
+          description: Edited Requirement Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/EditedTestcase'
+        '400':
+          description: Invalid Input
+  /TestcaseService/deleteTestcase/{testcaseId}:
+    delete:
+      tags:
+        - admins
+        - tester
+      security:
+      - bearerAuth: []
+      summary: delete an existing Testcase
+      operationId: deleteTestcase
+      description: |
+        update an existing Project Requirement
+      parameters:
+        - in: path
+          name: testcaseId
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Deleted Testcase Successfully
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DeletedTestcase'
+        '400':
+          description: Invalid Input            
+              
+              
+          
+          
+components:
+  securitySchemes:
+    bearerAuth:   
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+  
+    User:
+      type: object
+      required:
+        - UserDetail
+      properties:
+        UserDetail:
+            $ref: '#/components/schemas/UserListContent'
+    DeletedUser:
+      type: object
+      required:
+        - Deleted
+      properties:
+        Deleted:
+            $ref: '#/components/schemas/UserListContent'
+    UpdatedUser:
+      type: object
+      required:
+        - Deleted
+      properties:
+        Updated:
+            $ref: '#/components/schemas/UserListContent'
+            
+    UserList:
+      type: object
+      required:
+        - Users
+      properties:
+        Data:
+          items:
+              $ref: '#/components/schemas/UserListContent'
+              
+    UserListRole:
+      type: object
+      required:
+        - Users
+      properties:
+        Users:
+          items:
+              $ref: '#/components/schemas/UserListContent'
+              
+    UserListContent:
+      type: object
+      required:
+        - username
+        - password
+        - firstName
+        - lastName
+        - projectId
+        - mobileNumber
+        - emailId
+        - dateOfJoining
+        - dateOfResigning
+        - userRoles
+      properties:
+        userId:
+          type: string
+          example: U11
+        username:
+          type: string
+          example: john2k
+        password:
+          type: string
+          example: John@2020
+        firstName:
+          type: string
+          example: john
+        lastName:
+          type: string
+          example: bk
+        projectId:
+          type: string 
+          example: P1
+        mobileNumber:
+          type: string
+          example: 9806546632
+        emailId:
+          type: string
+          example: jogn@gmail.com
+        createdBy :
+          type: string
+          example: "U14"
+        LastUpdatedBy:
+          type: string
+          example: "U15"
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        dateOfJoining:
+          type: object
+          example: 02-05-2020
+        dateOfResigning:
+          type: object
+          example: 04-07-2039
+        userRoles:
+          type: object
+          example: ["developer","tester"]
+        userStatus:
+          type: string
+          example: active
+    ServicesList:
+      type: object
+      required:
+        - Services
+      properties:
+        Services:
+          items:
+              $ref: '#/components/schemas/ServiceListContent'
+    ServiceDeletedListContent:
+      type: object
+      required:
+        - deletedCount
+      properties:
+        deletedCount:
+          type: integer
+          example: 1
+        
+    ServiceListContent:
+      type: object
+      required:
+        - serviceName
+      properties:
+        serviceName:
+          type: string
+          example: addRole
+        rolesPermission:
+          type: object
+          example: ["developer","tester"]
+        createdBy :
+          type: string
+          example: "U14"
+        LastUpdatedBy:
+          type: string
+          example: "U15"
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+          
+    ServiceUpdateListContent:
+      type: object
+      required:
+        - rolesPermission
+      properties:
+        rolesPermission:
+          type: object
+          example: ["developer","tester"]
+    Service:
+      type: object
+      required: 
+        - Service
+      properties:
+        ServiceDetail:
+          $ref: '#/components/schemas/ServiceListContent'     
+    InsertedService:
+      type: object
+      required: 
+        - Service
+      properties:
+        Inserted:
+          $ref: '#/components/schemas/ServiceListContent'
+    DeletedService:
+      type: object
+      required: 
+        - Service
+      properties:
+        Deleted:
+          $ref: '#/components/schemas/ServiceDeletedListContent'
+    
+    RoleService:
+      type: object
+      required: 
+        - Service
+      properties:
+        Services:
+          $ref: '#/components/schemas/ServiceListContent'      
+    RoleList:
+      type: object
+      required:
+        - Roles
+      properties:
+        Roles:
+          items:
+              $ref: '#/components/schemas/RoleListContent'
+    updateService:
+      type: object
+      required:
+        - Service
+      properties:
+        Updated:
+          items:
+              $ref: '#/components/schemas/ServiceListContent'
+    RoleListContent:
+      type: object
+      required:
+        - roleName
+      properties:
+        roleId:
+          type: string
+          example: R1
+        roleName:
+          type: string
+          example: admin
+        roleStatus:
+          type: string
+          example: active
+        createdBy :
+          type: string
+          example: "U14"
+        LastUpdatedBy:
+          type: string
+          example: "U15"
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+    RoleListContentDelete:
+      type: object
+      required:
+        - roleName
+      properties:
+        roleId:
+          type: string
+          example: R1
+        roleName:
+          type: string
+          example: admin
+        roleStatus:
+          type: string
+          example: InActive
+        createdBy :
+          type: string
+          example: "U14"
+        LastUpdatedBy:
+          type: string
+          example: "U15"
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+    Role:
+      type: object
+      required: 
+        - Role
+      properties:
+        Role:
+          $ref: '#/components/schemas/RoleListContent'
+    UpdatedRole:
+      type: object
+      required: 
+        - Role
+      properties:
+        Updated Role:
+          $ref: '#/components/schemas/RoleListContent'
+    DeletedRole:
+      type: object
+      required: 
+        - Role
+      properties:
+        Deleted:
+          $ref: '#/components/schemas/RoleListContentDelete'
+    InsertedRole:
+      type: object
+      required: 
+        - Role
+      properties:
+        Inserted:
+          $ref: '#/components/schemas/RoleListContent'
+          
+    DefectHistoryList:
+      # type: object
+      properties:
+        History of Defects:
+          type: array
+          items:
+              $ref: '#/components/schemas/DefectHistoryContent'
+    DefectHistoryOne:
+      properties:
+        Defect History:
+          $ref: '#/components/schemas/DefectHistoryContent'
+    DefectHistoryContent:
+      type: object
+      required:
+        - defectId
+        - defectStatus
+        - defectHistory
+      properties:
+        defectId:
+          type: string
+          example: D1
+        defectStatus:
+          type: string
+          example: active
+        defectHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryContent'
+    HistoryContent:
+      type: object
+      required:
+        - eventId
+        - status
+        - startDate
+        - endDate
+        - workDoneBy
+      properties:
+        eventId:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: active
+        startDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        endDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        workDoneBy:
+          type: string
+          example: U15
+    DefectOne:
+      properties:
+        Defect :
+          $ref: '#/components/schemas/DefectContent'
+    DefectList:
+      properties:
+        List of Defects:
+          type: array
+          items:
+              $ref: '#/components/schemas/DefectContent'
+    DefectContent:
+      type: object
+      required:
+        - defectId
+        - defectStatus
+        - createdDate
+        - projectId
+        - testCaseId
+        - expectedResults
+        - actualResults
+        - assignedTo
+        - createdBy
+        - updatedBy
+        - lastUpdatedDate
+        - bugStatus
+        - severity
+        - defectType
+        - attachmentLinks
+      properties:
+        defectId:
+          type: string
+          example: D1
+        defectStatus:
+          type: string
+          example: active
+        createdDate:
+          type: object
+          example: "2020-11-08T18:39:54.304+00:00"
+        projectId:
+          type: string
+          example: P1
+        testCaseId : 
+          type: string
+          example: T2
+        expectedResults:
+          type: string
+          example: Should Display project details of project P1 when p1 is entered as input
+        actualResults:
+          type: string
+          example: Invalid input. No records found for p1.
+        assignedTo:
+          type: string
+          example: U14
+        createdBy:
+          type: string
+          example: U15
+        updatedBy:
+          type: string
+          example: U15
+        lastUpdatedDate:
+          type: object
+          example: "2020-11-08T18:39:54.304+00:00"
+        bugStatus:
+          type: string
+          example: new
+        severity:
+          type: integer
+          example: 1
+        defectType: 
+          type: string
+          example: Requirement
+        attachmentLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentLinks'
+    AttachmentLinks:
+      type: string
+      example: "https://www.dropbox.com/home/ScreenShots?preview=actualResult.PNG"
+    DefectDelete:
+      properties:
+        Defect:
+          $ref: '#/components/schemas/DeletedString'
+    DeletedString:
+      type: string
+      example: Defect Deleted Successfully
+    AddDefectContent:
+      type: object
+      required:
+        - testCaseId
+        - expectedResults
+        - actualResults
+        - assignedTo
+        - bugStatus
+        - severity
+        - defectType
+        - attachmentLinks
+      properties:
+        testCaseId: 
+          type: string
+          example: T1
+        expectedResults:
+          type: string
+          example: Should Display project details of project P1 when p1 is entered as input
+        actualResults:
+          type: string
+          example: Invalid input. No records found for p1.
+        assignedTo:
+          type: string
+          example: U15
+        bugStatus:
+          type: string
+          example: new
+        severity:
+          type: integer
+          example: 1
+        defectType: 
+          type: string
+          example: Requirement
+        attachmentLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachmentLinks'
+    UpdateDefectContent:
+      type: object
+    CommentList:
+      properties:
+        List of Comments:
+          type: array
+          items:
+              $ref: '#/components/schemas/CommentContent'
+    CommentContent:
+      type: object
+      required:
+        - defectId
+        - defectStatus
+        - commentDescription
+      properties:
+        defectId:
+          type: string
+          example: D1
+        defectStatus:
+          type: string
+          example: active
+        commentDescription:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatContent'
+    ChatContent:
+      type: object
+      required:
+        - commentId
+        - date
+        - repliedBy
+        - repliedTo
+        - comments
+      properties:
+        commentId:
+          type: string
+          example: C1
+        date:
+          type: object
+          example: "2020-11-08T18:39:54.304+00:00"
+        repliedBy:
+          type: string
+          example: U15
+        repliedTo:
+          type: string
+          example: U16
+        comments:
+          type: string
+          example: Get Projects by Id is not working
+    CommentOne:
+      properties:
+        Defect :
+          $ref: '#/components/schemas/CommentContent'
+    AddChatContent:
+      type: object
+      required:
+        - repliedTo
+        - comments
+      properties:
+        repliedTo:
+          type: string
+          example: U16
+        comments:
+          type: string
+          example: Bug has been opened
+    TestcaseEditContent:
+     type: object
+     properties:
+        testcaseName:
+          type: string
+          example: Testing Login screen for chat
+        testcaseDescription:
+          type: string
+          example: A short msg should appear after login
+        expectedResults:
+          type: string
+          example: Login Succesful in Toast
+        actualResults:
+          type: string
+          example: XXX
+    ProjectList:
+      type: object
+      required:
+        - Roles
+      properties:
+        Projects:
+          items:
+              $ref: '#/components/schemas/ProjectListContent'
+    ProjectEditContent:
+      properties:
+          projectName:
+            type: string
+            example: "An Android App"
+          projectDescription:
+            type: string
+            example: "A Mobile App to manage all users"
+          endDate:
+            type: object
+            example: "2020-11-10T14:45:45.666+00:00"
+          targetedRelease:
+            type: string
+            example: May
+          status:
+            type: string
+            example: Active
+    TestcaseListContent:
+      type: object
+      properties:
+        testcaseId:
+          type: string
+          example: T1
+        requirementId:
+          type: string
+          example: P1R1
+        projectId:
+          type: string
+          example: P1
+        testcaseName:
+          type: string
+          example: Testing Login screen for chat
+        testcaseDescription:
+          type: string
+          example: A short msg should appear after login
+        expectedResults:
+          type: string
+          example: Login Succesful in Toast
+        actualResults:
+          type: string
+          example: XXX
+        status:
+          type: string
+          example: Active
+        createdBy :
+          type: string
+          example: U14
+        UpdatedBy:
+          type: string
+          example: U15
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+    ProjectListContent:
+      type: object
+      required:
+        - projectName
+        - projectId
+      properties:
+        projectId:
+          type: string
+          example: P1
+        projectName:
+          type: string
+          example: "An Android App"
+        projectDescription:
+          type: string
+          example: "A Mobile App to manage all users"
+        startDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        endDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        targetedRelease:
+          type: string
+          example: May
+        status:
+          type: string
+          example: Active
+        createdBy :
+          type: string
+          example: U14
+        UpdatedBy:
+          type: string
+          example: U15
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        requirements: 
+          type: array
+          required:
+            - requirementId
+          items:
+            $ref: '#/components/schemas/RequirementListContent'
+    ProjectDeleteContent:
+      type: object
+      required:
+        - projectName
+        - projectId
+      properties:
+        projectId:
+          type: string
+          example: P1
+        projectName:
+          type: string
+          example: "An Android App"
+        projectDescription:
+          type: string
+          example: "A Mobile App to manage all users"
+        startDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        endDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        targetedRelease:
+          type: string
+          example: May
+        status:
+          type: string
+          example: InActive
+        createdBy :
+          type: string
+          example: U14
+        UpdatedBy:
+          type: string
+          example: U15
+        LastUpdatedDate:
+          type: object
+          example: "2020-11-10T14:45:45.666+00:00"
+        requirements: 
+          type: array
+          required:
+            - requirementId
+          items:
+            $ref: '#/components/schemas/RequirementDeleteContent'
+    RequirementDeleteContent:
+      type: object
+      required:
+        - requirementName
+        - requirementId
+      properties:
+        requirementId:
+            type: string
+            example: P1R1
+        requirementName:
+          type: string
+          example: "Need Bot Support"
+        requiremrntDescription:
+          type: string
+          example: InActive
+    RequirementListContent:
+      type: object
+      required:
+        - requirementName
+        - requirementId
+      properties:
+        requirementId:
+            type: string
+            example: P1R1
+        requirementName:
+          type: string
+          example: "Need Bot Support"
+        requiremrntDescription:
+          type: string
+          example: Active
+    ProjectDetails:
+      type: object
+      required: 
+        - Role
+      properties:
+        Project Details:
+          $ref: '#/components/schemas/ProjectListContent'
+    AddedProject:
+      type: object
+      required: 
+        - Role
+      properties:
+        Added Project:
+          $ref: '#/components/schemas/ProjectListContent'
+    UpdatedProject:
+      type: object
+      required: 
+        - Role
+      properties:
+        Updated Project:
+          $ref: '#/components/schemas/ProjectListContent'
+    DeletedProject:
+      type: object
+      required: 
+        - Role
+      properties:
+        Deleted Project:
+          $ref: '#/components/schemas/ProjectDeleteContent'
+    EditedRequirement:
+      type: object
+      required: 
+        - Role
+      properties:
+        Edited Requirement:
+          $ref: '#/components/schemas/ProjectListContent'
+    AddedRequirement:
+      type: object
+      required: 
+        - Role
+      properties:
+        Added Requirement:
+          $ref: '#/components/schemas/ProjectListContent'
+    DeletedRequirement:
+      type: object
+      required: 
+        - Role
+      properties:
+        Deleted Requirement:
+          $ref: '#/components/schemas/ProjectListContent'
+    AddedTestcase:
+      type: object
+      required: 
+        - Role
+      properties:
+        Added Testcase:
+          $ref: '#/components/schemas/TestcaseListContent'
+    Testcases:
+      type: object
+      required:
+        - Roles
+      properties:
+        Testcases:
+          items:
+              $ref: '#/components/schemas/TestcaseListContent'
+    EditedTestcase:
+      type: object
+      required:
+        - Roles
+      properties:
+        Edited Testcase:
+          items:
+              $ref: '#/components/schemas/TestcaseListContent'
+    DeletedTestcase:
+      type: object
+      required:
+        - Roles
+      properties:
+        Deleted Testcase:
+          items:
+              $ref: '#/components/schemas/TestcaseListContent'
+          
